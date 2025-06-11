@@ -1,0 +1,13 @@
+  // Node*curr=head,*prev=NULL;
+    // int k=5;
+    // head=reverse_k(head,k);
+    // print(head);
+    //  k=5;
+    // head=reverse_k(head,k);
+    // print(head);
+    //  k=7;
+    // head=reverse_k(head,k);
+    // print(head);
+    //  k=7;
+    // head=reverse_k(head,k);
+    // print(head);

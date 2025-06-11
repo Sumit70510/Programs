@@ -1,0 +1,1 @@
+{"name":"Local: P_D_Late","url":"c:\\NEW_PHASE\\CODE_FORCES\\March2025\\P_D_Late.cpp","tests":[{"id":1742965927788,"input":"5\n3 4 7\n5 5 5\n1 13 2\n2 4 7\n1 5 4","output":"2\n1\n1\n4\n2\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\NEW_PHASE\\CODE_FORCES\\March2025\\P_D_Late.cpp","group":"local","local":true}
