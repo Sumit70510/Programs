@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define loop(x) for(x=0;x<3;x++)
+#define loop(x) for(x=0;x<=2;x++)
 #define revloop(x) for(x=2;x>=0;x--)
 
 //----------------------------------------CLASS FOR POSITION OF ELEMENTS-------------------------------------------------
@@ -204,7 +204,7 @@ if(V_Moves.Virtual_rook1[k].x!=Rook2.x&&V_Moves.Virtual_rook1[k].y!=Rook2.y)////
                       {Container[i][j]=-2;update++;}
                  }
                 else
-                {
+                 {
 if(Zone.x.Container[i][j]==V_Moves.Virtual_rook1[k].x||Zone.x.Container[i][j]==Rook2.x||Zone.y.Container[i][j]==V_Moves.Virtual_rook1[k].y||Zone.y.Container[i][j]==Rook2.y)
                    {Container[i][j]=-2;update++;}
                  }
@@ -273,7 +273,7 @@ class COMS
        //////////////////////////////////////////////////////////*/
       }
 //**********************FINDING PERMOTED COUNT************************
-   return(permote());
+    return(permote());
    }
 //===========================================END OF ACTION===============================================================
 
