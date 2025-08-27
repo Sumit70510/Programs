@@ -4,19 +4,23 @@ const jwt=require("jsonwebtoken");
 const bcrypt=require("bcrypt");
 const userModel=require("./Models/user");
 const postModel=require("./Models/post");
-const upload=require("./config/multerconfig")
+const upload=require("./config/multerconfig.js")
+const path=require("path");
+
+const multer=require("multer");
 const app=express();
+
 app.set("view engine","ejs");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname,"public")));
 
 app.get("/",(req,res)=>{
     res.render("index");
 })
 
 // app.get("/register",(req,res)=>{
-// //    res.send("Registered");
 //       res.render("index");
 // })
 
@@ -49,6 +53,23 @@ app.post("/update/:id",isloggedIn,async (req,res)=>{
     res.redirect("/profile");
 })
 
+app.get("/delete/:id",isloggedIn,async (req,res)=>{
+    await postModel.findOneAndDelete({_id:req.params.id});
+    let user=await userModel.findOne({email:req.user.email});
+    console.log(user);
+    await user.posts.splice(user.posts.indexOf(req.params.id),1);
+    user.save();
+    console.log(user);
+    res.redirect("/profile");
+})
+
+// app.get("/del",isloggedIn,async(req,res)=>{
+//    let user= await userModel.findOne({email:req.user.email});
+//    user.posts=[];
+//    await user.save();
+//    res.redirect("/profile")
+// })
+
 app.post("/post",isloggedIn,async(req,res)=>{
    let user= await userModel.findOne({email:req.user.email});
   //  console.log(req.body.content);
@@ -61,18 +82,37 @@ app.post("/post",isloggedIn,async(req,res)=>{
    res.redirect("/profile");
 })
 
-app.post("/upload",isloggedIn,upload.single("image"),(req,res)=>{
-  console.log(req.file);
+app.get("/profileupload",(req,res)=>{
+  res.render("profile_upload");
 })
 
-app.get("/del",isloggedIn,async(req,res)=>{
+// app.get("/profil",isloggedIn,async(req,res)=>{
+//   let user=await userModel.findOne({email:req.user.email})
+//   res.send(user);
+// })
+
+app.post("/upload",isloggedIn,upload.single("image"),async(req,res)=>{
+    if (!req.file) {
+    return res.status(400).send("No file uploaded. Check your form's enctype and input name.");
+  }
+  // console.log(req.file);
+  let user=await userModel.findOne({email:req.user.email});
+  user.profilepic=req.file.filename;
+  await user.save();
+  res.redirect("/profile");
+})
+
+app.get("/reset",async(req,res)=>{
    await postModel.deleteMany({});
-   res.redirect("/profile");
+   await userModel.deleteMany({});
+   res.redirect("/");
 })
 
 app.post("/register",async (req,res)=>{
    let {name,username,age,email,password}=req.body;
-  //  console.log(name);
+   console.log(req.body);
+   if(name===""||username===""||age===""||email===""||password==="")
+    {res.status(500).redirect("/");}
    let user = await userModel.findOne({email:email});
    if(user)
     {return res.status(500).send("User Already Registered");}
@@ -89,9 +129,8 @@ app.post("/register",async (req,res)=>{
       let token=jwt.sign({email : email , userid : user._id},"THIS IS MY SECRET KEY");
       res.cookie("token",token);
       res.redirect("/profile");   
-     })
-   })
-   
+     });
+   })   
 })
 
 app.get("/login",(req,res)=>{

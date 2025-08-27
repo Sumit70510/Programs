@@ -11,15 +11,20 @@
        <div class="w-full flex justify-end"> 
         <a href="/logout" class="bg-red-500 rounded-md px-3 py-2 text-sm mb-5 inline-block">Logout</a>
        </div>
-       <h3 class="text-3xl mb-5"> 
+       <div class="flex item-start gap-3">
+        <div class="w-10 h-10 overflow-hidden rounded-md">
+            <img src="/images/uploads/<%=user.profilepic%>" class="w-full h-full object-cover">
+        </div>
+        <h3 class="text-3xl mb-4"> 
          <span class="font-light">Hello</span>
-         👋,<%= user.name %>
-       </h3> 
-       <h5 class="mb-5">You Can Create A New Post.</h5>
+         👋, <%= user.name %>
+        </h3>
+       </div> 
+       <h5 class="mb-3">You Can Create A New Post.</h5>
        <form action="post" method="POST">
-         <textarea class="resize-none w-1/3 p-3 outline-none bg-transparent block
-          border-2 border-zinc-800 rounded-md" name="content" placeholder="What's On Your Mind ?">
-         </textarea>
+         <textarea class="resize-none w-1/3 p-2 outline-none bg-transparent block
+          border-2 border-zinc-800 rounded-md" name="content"
+           placeholder="What's On Your Mind ?"></textarea>
          <input class="px-3 py-2 text-sm bg-blue-500 block rounded-md mt-2 w-40" type="submit"
            value="Create New Post">
        </form>
@@ -42,6 +47,7 @@
                  <%= post.likes.indexOf(user._id)===-1?"Like":"Unlike" %>
                 </a>
                 <a href="/edit/<%= post._id %>" class="text-zinc-600">Edit</a>
+                <a href="/delete/<%= post._id %>" class="text-red-500 ml-auto">🚮 Delete</a>
                </div> 
             </div>
            <% } ) %> 
